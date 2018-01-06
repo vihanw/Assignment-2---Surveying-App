@@ -24,6 +24,25 @@
           </header>
           <main class="mdl-layout__content">
               <!--   Main page content here:   -->  
+              
+              <div id="googleMap" style="width:100%;height:600px;"></div>
+              
+<script>
+         
+        function initMap() 
+        {
+        // Initialise map, centred on Melbourne, Australia.
+        map = new google.maps.Map(document.getElementById('googleMap'), {
+                center: {lat: -37.8200855, lng: 144.9608045},
+                zoom: 17
+            });
+        }
+
+</script>
+              
+      
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCgQFjF8L-5JxcM3QaMzNM5UQPPcYgiDes&callback=initMap">
+              </script>
 
           </main>    
           <div id="toast" class="mdl-js-snackbar mdl-snackbar">
