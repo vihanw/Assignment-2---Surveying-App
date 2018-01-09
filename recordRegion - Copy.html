@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Fencing</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css">
+        <link rel="stylesheet" href="css/regionApp.css" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <link rel="shortcut icon" sizes="196x196" href="images/icon.png" />
+        <link rel="apple-touch-icon-precomposed" href="images/icon.png" />
+    </head>
+    
+    <body>
+        <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+          <header class="mdl-layout__header">
+            <button onclick="location.href = 'index.html';" class="mdl-layout-icon mdl-button mdl-js-button mdl-button--icon"> 
+              <i class="material-icons">arrow_back</i>
+            </button>
+            <div class="mdl-layout__header-row">
+              <span class="mdl-layout-title" id="headerBarTitle">Record Region</span>
+            </div>
+          </header>
+          <main class="mdl-layout__content">
+              <!--   Main page content here:   -->  
+              
+              <div id="googleMap" style="width:100%;height:500px;"></div>
+              
+<script>
+        var map,infoWindow;
+        function initMap() 
+        {
+        // Initialise map, centred on Melbourne, Australia.
+        map = new google.maps.Map(document.getElementById('googleMap'), {
+                center: {lat: -37.8200855, lng: 144.9608045},
+                zoom: 17
+            });
+            infoWindow = new google.maps.InfoWindow;
+        }
+   
+    
+
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+             
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            infoWindow.open(map);
+            map.setCenter(pos);
+             
+          }, function() {
+            handleLocationError(true, infoWindow, map.getCenter());
+          });
+        } else {
+          // Browser doesn't support Geolocation
+          handleLocationError(false, infoWindow, map.getCenter());
+        }
+      
+
+      function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        infoWindow.setPosition(pos);
+        infoWindow.setContent(browserHasGeolocation ?
+                              'Error: The Geolocation service failed.' :
+                              'Error: Your browser doesn\'t support geolocation.');
+        infoWindow.open(map);
+      }
+    var apiGeolocationSuccess = function(position) {
+    alert("API geolocation success!\n\nlat = " + position.coords.latitude + "\nlng = " + position.coords.longitude);
+};
+
+var tryAPIGeolocation = function() {
+    jQuery.post( "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDCa1LUe1vOczX1hO_iGYgyo8p_jYuGOPU", function(success) {
+        apiGeolocationSuccess({coords: {latitude: success.location.lat, longitude: success.location.lng}});
+  })
+  .fail(function(err) {
+    alert("API Geolocation error! \n\n"+err);
+  });
+};
+
+var browserGeolocationSuccess = function(position) {
+    alert("Browser geolocation success!\n\nlat = " + position.coords.latitude + "\nlng = " + position.coords.longitude);
+};
+
+var browserGeolocationFail = function(error) {
+  switch (error.code) {
+    case error.TIMEOUT:
+      alert("Browser geolocation error !\n\nTimeout.");
+      break;
+    case error.PERMISSION_DENIED:
+      if(error.message.indexOf("Only secure origins are allowed") == 0) {
+        tryAPIGeolocation();
+      }
+      break;
+    case error.POSITION_UNAVAILABLE:
+      alert("Browser geolocation error !\n\nPosition unavailable.");
+      break;
+  }
+};
+
+var tryGeolocation = function() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+        browserGeolocationSuccess,
+      browserGeolocationFail,
+      {maximumAge: 50000, timeout: 20000, enableHighAccuracy: true});
+  }
+};
+
+    
+    
+    
+    /////
+    var marker; 
+
+
+
+function centerMap(location)
+{
+var myLatlng = new google.maps.LatLng(location.coords.latitude,location.coords.longitude);
+map.setCenter(myLatlng);
+map.setZoom(15);
+
+    $("#lat").text("Latitude : " + location.coords.latitude);
+    $("#lon").text("Longitude : " + location.coords.longitude);
+    //show current location on map
+    marker = new google.maps.Marker({
+    position: myLatlng,
+    map: map,
+    zIndex:1
+    });
+
+navigator.geolocation.clearWatch(watchId);
+
+ }
+tryGeolocation();
+
+    centerMap(location)
+</script>
+              
+      
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCgQFjF8L-5JxcM3QaMzNM5UQPPcYgiDes&callback=initMap">
+              </script>
+
+          </main>    
+          <div id="toast" class="mdl-js-snackbar mdl-snackbar">
+            <div class="mdl-snackbar__text"></div>
+            <button class="mdl-snackbar__action" type="button"></button>
+          </div>
+        </div>
+
+        <!--   JavaScript files:   -->
+        <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+        <script src="js/shared.js"></script>
+        <script src="js/recordRegionPage.js"></script>
+    </body>
+</html>
