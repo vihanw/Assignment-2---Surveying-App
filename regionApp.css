@@ -9,3 +9,58 @@ html, body {
     /* view height, minus header bar height and room for buttons */
     height: calc(100vh - 124px);
 }
+
+    
+.recordRegionButtons {
+    display: flex;
+    
+    flex-flow: row wrap;
+    
+    justify-content: space-around;
+    
+    box-sizing: border-box;
+    
+    display: table;
+    text-align: center;
+        
+}
+
+/* Include the padding and border in an element's total width and height */
+* {
+    box-sizing: border-box;
+}
+
+/* Remove margins and padding from the list */
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+/* Style the list items */
+ul li {
+    cursor: pointer;
+    position: relative;
+    padding: 12px 8px 12px 40px;
+    background: #8A2BE2 ;
+    font-size: 18px;
+    transition: 0.2s;
+
+    /* make the list items unselectable */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Set all odd list items to a different color (zebra-stripes) */
+ul li:nth-child(odd)  {
+    
+    background: 	#00FFFF ;
+    
+    flex-flow: row-reverse;
+     box-shadow: 0 10px 20px rgba(0,0,0,0.20), 0 10px 5px rgba(0,0,0,0.10);
+}
+
+
+
+
