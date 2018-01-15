@@ -10,6 +10,7 @@ var savedRegions = [];
 
 var keyArray = [];
 
+
 function getKeys() {
 for(var i=0;i<localStorage.length; i++) {
   keyArray[i]=localStorage.key(i)
@@ -87,10 +88,5 @@ class Region {
 }
     
 var region1 = null;
-var region2 = null;
-var region3 = null;
-var region4 = null;
 var regionNew = null;
 
-   
-    

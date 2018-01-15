@@ -61,6 +61,13 @@ ul li:nth-child(odd)  {
      box-shadow: 0 10px 20px rgba(0,0,0,0.20), 0 10px 5px rgba(0,0,0,0.10);
 }
 
+ #over_map { position: absolute; top: 459px; left: 45px; z-index: 80;  color: black; z-index: 3; color:deeppink; ;}
+
+#over_map2{ position: absolute; top: 464px; left: 180px; z-index: 80; color: black; z-index: 3; color:deeppink; }
+
+
+#wrapper { position: relative; }
+ 
 
 
 

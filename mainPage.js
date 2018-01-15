@@ -19,7 +19,7 @@ function createSavedRegionsArray(){
     }
 }
 createSavedRegionsArray()
-var one = console.log(savedRegions[1]._name)
+//var one = console.log(savedRegions[1]._name)
 
 
 

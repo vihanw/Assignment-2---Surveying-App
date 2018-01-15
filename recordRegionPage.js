@@ -4,7 +4,7 @@ var pos;
      //variables for map and infowindow
         var map,infoWindow,accuracyValid,createPolygon;
 
-        var currentLocation 
+        var currentLocation
 
         var cornerArray =[];
 
@@ -21,7 +21,7 @@ var pos;
         //define the info window which is to be shown on the map
             infoWindow = new google.maps.InfoWindow;
             
-    
+    //specifying properties to create a polygon
      createPolygon = new google.maps.Polygon({
           paths: cornerArray,
           strokeColor: '#FF0000',
@@ -30,7 +30,8 @@ var pos;
           fillColor: '#FF0000',
           fillOpacity: 0.35
         });
-   
+            
+           
        // createPolygon.setMap(map);
         
       }
@@ -94,61 +95,99 @@ var pos;
             //Set a time to run the autoUpdate function, time is in ms
                 setTimeout(autoUpdate,500);
             }
-      autoUpdate();
+//run the autoUpdate function 
+   autoUpdate();
         
         
 
        //error message to be displayed if geolocation is not supported
       function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+        
+   //place the infowindow on the current location so that it acs as a location //pin
         infoWindow.setPosition(pos);
         infoWindow.setContent(browserHasGeolocation ?
                               'Error: The Geolocation service failed.' :
                               'Error: Your browser doesn\'t support geolocation.');
+   //open the infowindow on the map
         infoWindow.open(map);
       }
 
+//onclick function to add corners
 function addCorner(){
     //*******Uncomment if else structure**********************************
+ //check for accuracy before saving a corner
     //if (accuracyValid==true) {
+   
+ //push the current location to the array containing all the region locations
     cornerArray.push(pos);
+ 
+ //update the polygon showing the area
     createPolygon.setPath(cornerArray);
     createPolygon.setMap(map)
+    
+ //success message after adding the corner
     displayMessage('Corner Added',1000)
     
+ //return the array of corner locations
     return cornerArray
       //  }
-   // else{
+   
+ //display error if location accuracy is insufficient 
+    // else{
      //   displayMessage('Accuracy Insufficient',1500)
     //}
 };
 
+//onclick function for resetting a region
 function resetRegion(){
+    
+ //obtaining a confirmation from the user
    var confirmation = confirm("Are you sure you want to clear the region?");
+    
+ //emptying the corner array
     cornerArray=[];
+    
+ //clearing the polygon
     createPolygon.setPath(cornerArray)
     createPolygon.setMap(null)
+    
+ //displaying a message after successfully clearing a region
     displayMessage('Region Removed',1000)
 };
 
 
 
-
+//onclick function to save the region
 function saveRegion(){
-   if (cornerArray.length>2) {
    
+ //checking if a sufficient amount of corners are present
+    if (cornerArray.length>2) {
+   
+ //checking if local storage is present
 if(typeof(Storage)!=="undefined") { 
+   
+ //getting user input for the key to be saved in local storage and also the   //nickname given by the user to display on the main page
     var nameLocalStorage = prompt("Please Enter Region Name")
     
+ //creating a new region using the constructor class
    regionNew = new Region(nameLocalStorage,cornerArray,new Date);
+ 
+ //saving the new region to local storage after stringifying
    localStorage.setItem(nameLocalStorage,JSON.stringify(regionNew))
+    
+ //displaying a message after successfully saving the region into the local //storage
    window.alert("Region Saved")
             
-   //*****window.history.back();****
+ //going back to the main page 
+    //*****window.history.back();****
             
     }
+ //displaying error if local storage is not suported        
        else{
            window.alert("localStorage is not supported by current browser.")
        }
 }
+    
+ //displaying alert if the number of corners are insufficient
 else {window.alert("Should contain atleast 2 corners")}
 }
